@@ -48,12 +48,7 @@
       font-weight: bold;
       text-align: left;
     }
-    body{
-      background-image: url('https://cdn.dribbble.com/users/1174720/screenshots/11361128/am90_e_01_drbl_4x.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      height: 100%;
-    }
+   
     .menu{
       display: flex;
       padding-left: 15px;
@@ -74,17 +69,11 @@
       color: black;
       text-align: left;
     }
-    body{
-      background-image: url('https://cdn.dribbble.com/users/1174720/screenshots/11361128/am90_e_01_drbl_4x.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      height: 100%;
-  }
-  .menu{
-    padding-left: 15px;
-    margin: 5px;
-    font-size: 25px;
-    font-weight: bold;
-  }
+    .menu{
+      padding-left: 15px;
+      margin: 5px;
+      font-size: 25px;
+      font-weight: bold;
+    }
 
   }
