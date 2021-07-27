@@ -3,6 +3,7 @@ const app = express();
 const Product = require('../model/product');
 const Users = require('../model/users');
 
+//Rutas get
 app.get('/', async function(req,res){
     //var product = await Product.find();
   res.render('index')
