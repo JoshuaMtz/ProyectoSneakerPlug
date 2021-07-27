@@ -15,7 +15,7 @@ mongoose.connect(config.db.connectionUrl,{
 
 // importing routes
 const indexRoutes = require('./routes/routeindex');
-
+app.use(express.static('css'));
 
 // settings
 app.set('port', config.app.port);
@@ -29,7 +29,7 @@ app.use(express.json());
 
 
 // routes
-app.use('/', indexRoutes);
+app.use('/',indexRoutes);
 
 app.listen(app.get('port'), () =>{
     console.log(`server on port ${app.get('port')}`);
