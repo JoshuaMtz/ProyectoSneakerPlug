@@ -4,12 +4,14 @@ var Schema = mongoose.Schema;
 
 // # 2
 var ProductSchema = Schema ({
-    title: String,
+    name: String,
     description: String,
-    status: {
-        type: Boolean,
-        default: false
-    }
+    size: Number,
+    image: String,
+    price: Number,
+    user: Number,
+    datePublished: Date,
+    dateSelled: Date
 })
 
 // # 3
