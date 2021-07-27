@@ -15,7 +15,7 @@ mongoose.connect(config.db.connectionUrl,{
 
 // importing routes
 const indexRoutes = require('./routes/routeindex');
-app.use(express.static('css'));
+app.use(express.static('public'));
 
 // settings
 app.set('port', config.app.port);
