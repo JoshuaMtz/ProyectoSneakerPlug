@@ -4,12 +4,13 @@ var Schema = mongoose.Schema;
 
 // # 2
 var UsersSchema = Schema ({
-    title: String,
-    description: String,
-    status: {
-        type: Boolean,
-        default: false
-    }
+    userID: String,
+    userName: String,
+    email: String,
+    password: String, 
+    boughtProducts: [],
+    selledProducts: [],
+    offeredProducts: []
 })
 
 // # 3

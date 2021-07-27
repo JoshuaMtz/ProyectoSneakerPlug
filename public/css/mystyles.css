@@ -6,11 +6,7 @@
       height: 100%;
   }
   /* Position the navbar container inside the image */
-  .container {
-    position: absolute;
-    margin-top: 33%;
-    width: auto;
-  }
+  
   
   /* The navbar */
   .topnav {
@@ -21,6 +17,7 @@
   /* Navbar links */
   .topnav a {
     float: left;
+    display: block;
     color:floralwhite;
     font-size: 20px;
     font-weight: bold;
@@ -36,4 +33,9 @@
   .topnav a:hover {
     background-color: darkmagenta;
     color: black;
+  }
+
+  #prodTitle {
+    color: white;
+    padding-left: 15px;
   }
