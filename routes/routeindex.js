@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const Product = require('../model/product');
 const User = require('../model/users');
+const verify = require("../middleware/verifyAccess");
 
 products = [
   {
@@ -40,6 +41,11 @@ products = [
 app.get('/', async function(req,res){
     //var product = await Product.find();
   res.render('index')
+});
+
+app.get('/sell_product',verify, async function(req,res){
+  //var product = await Product.find();
+res.render('sell_Product')
 });
 
 app.get('/login', async function(req,res){
