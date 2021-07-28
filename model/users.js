@@ -1,17 +1,22 @@
 // # 1
 var mongoose = require("mongoose")
 var Schema = mongoose.Schema;
+var bcrypt = require("bcrypt");
 
 // # 2
-var UsersSchema = Schema ({
-    userID: String,
-    userName: String,
+var UserSchema = Schema ({
+    user_id: String,
     email: String,
-    password: String, 
-    boughtProducts: [],
-    selledProducts: [],
-    offeredProducts: []
-})
+    password: String
+});
+
+UserSchema.methods.encryptPassword = function(password){
+    return bcrypt.hashSync(password,10)
+}
+
+UserSchema.methods.validatePassword = function(userpassword){
+    return bcrypt.compare(userpassword,this.password)
+}
 
 // # 3
-module.exports = mongoose.model('users',UsersSchema)
+module.exports = mongoose.model('users', UserSchema);
