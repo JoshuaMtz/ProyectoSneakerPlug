@@ -102,6 +102,4 @@ function isLoggedIn(req, res, next) {
   res.redirect('/user');
 };
 
-
-
 module.exports = app;
