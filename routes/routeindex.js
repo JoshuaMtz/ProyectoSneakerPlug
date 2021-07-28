@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const Product = require('../model/product');
 const User = require('../model/users');
+const OrderProduct = require('../model/product')
 const verify = require("../middleware/verifyAccess");
 
 products = [
@@ -81,6 +82,25 @@ app.post('/addUser',async function(req,res){
   console.log(req.body);
   res.redirect("/login");
 });
+
+//RUTA CHECKOUT GET
+app.get('/checkout', isLoggedIn, function (req, res, next) {
+  if(!req.session.product) {
+      return res.redirect('/product');
+  }
+  const OrderProduct = new OrderProduct(req.session.product);
+  const errMsg = req.flash('error')[0];
+  return res.render('/checkout', {total: product.totalPrice, errMsg: errMsg, noError: !errMsg});
+});
+
+//Función para checar si el usuario está conectado a su cuenta
+function isLoggedIn(req, res, next) {
+  if(req.isAuthenticated()) {
+      return next();
+  }
+  req.session.oldUrl = req.url;
+  res.redirect('/user');
+};
 
 
 
