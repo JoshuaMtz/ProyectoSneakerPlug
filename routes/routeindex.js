@@ -4,6 +4,7 @@ const Product = require('../model/product');
 const User = require('../model/users');
 const OrderProduct = require('../model/product')
 const verify = require("../middleware/verifyAccess");
+var jwt = require("jsonwebtoken");
 
 products = [
   {
@@ -54,6 +55,38 @@ app.get('/login', async function(req,res){
 res.render('login')
 });
 
+app.post('/login', async function(req,res){
+  var user_id = req.body.user_id;
+  var password = req.body.password;
+  //console.log(req.body)
+  
+  /*
+    var {email,password} = req.body
+  */
+  var user = await User.findOne({user_id: user_id});
+  //Si el usuario no existe
+  if(!user){
+    return res.status(404).send("El usuario no existe");
+  }
+  //Si existe, validad la constraseña
+  else{
+    var valid = await user.validatePassword(password);
+    // si la contraseña es valida, crear un token
+    if(valid)
+    {
+      var token = jwt.sign({id:user.user_id,permission:true},"abc1234",{expiresIn: "1h"});
+      console.log(token);
+      res.cookie("token",token,{httpOnly: true})
+      res.redirect("/")
+    }
+    else{
+      console.log("Password is not valid")
+      res.redirect("/login")
+    }
+  }
+  //console.log(user)
+});
+
 app.get('/register', async function(req,res){
   //var product = await Product.find();
 res.render('register')
@@ -84,22 +117,16 @@ app.post('/addUser',async function(req,res){
 });
 
 //RUTA CHECKOUT GET
-app.get('/checkout', isLoggedIn, function (req, res, next) {
-  if(!req.session.product) {
-      return res.redirect('/product');
-  }
-  const OrderProduct = new OrderProduct(req.session.product);
-  const errMsg = req.flash('error')[0];
-  return res.render('/checkout', {total: product.totalPrice, errMsg: errMsg, noError: !errMsg});
+app.get('/checkout/:id', verify, async function (req, res,) {
+  var id = req.params.id;
+  var producto = await Product.findById(id);
+  res.render('checkout',{producto})
 });
 
-//Función para checar si el usuario está conectado a su cuenta
-function isLoggedIn(req, res, next) {
-  if(req.isAuthenticated()) {
-      return next();
-  }
-  req.session.oldUrl = req.url;
-  res.redirect('/user');
-};
+app.get('/logoff',  async (req,res) =>{
+
+  res.clearCookie("token");
+  res.redirect("/");
+})
 
 module.exports = app;
