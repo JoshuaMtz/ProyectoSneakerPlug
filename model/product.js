@@ -7,11 +7,20 @@ var ProductSchema = Schema ({
     name: String,
     description: String,
     size: Number,
-    image: String,
     price: Number,
-    user: Number,
+    user: String,
     datePublished: Date,
-    dateSelled: Date
+    dateSelled: Date,
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    },
+    selledStatus: {
+        type:Boolean,
+        default: false
+    },
+    userBought: String
 })
 
 // # 3
