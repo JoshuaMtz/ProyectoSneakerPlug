@@ -8,7 +8,8 @@
           <% for (var i = 0; i <products.length; i++) {    %>
 
             <div class="row p-2 bg-white border rounded">
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src=<%= products[i].image  %>></div>
+                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="data:image/<%=products[i].img.contentType%>;base64,
+					<%=products[i].img.data.toString('base64')%>"></div>
                 <div class="col-md-6 mt-1">
                     <h5 id="name"><%= products[i].name  %></h5>
                     <div class="d-flex flex-row">

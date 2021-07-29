@@ -2,11 +2,65 @@ const express = require('express');
 const app = express();
 const Product = require('../model/product');
 const User = require('../model/users');
-const OrderProduct = require('../model/product')
+
 const verify = require("../middleware/verifyAccess");
+var multer = require('multer');
+var fs = require('fs');
+var path = require('path');
 var jwt = require("jsonwebtoken");
 
-products = [
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads')
+  },
+  filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+var upload = multer({ storage: storage });
+/////////////
+app.get('/uploadProduct', (req, res) => {
+  Product.find({}, (err, items) => {
+      if (err) {
+          console.log(err);
+          res.status(500).send('An error occurred', err);
+      }
+      else {
+          res.render('sellProduct', { items: items });
+      }
+  });
+});
+
+app.post('/uploadProduct', verify, upload.single('image'), async (req, res, next) => {
+ 
+  //console.log(req)
+  var obj = {
+
+    size: req.body.size,
+    price: req.body.price,
+    user: req.userId,
+    datePublished: Date.now(),
+    selledStatus: false,
+    name: req.body.name,
+      desc: req.body.desc,
+      img: {
+          data: fs.readFileSync(path.join('./uploads/' + req.file.filename)),
+          contentType: 'image/png'
+      }
+  }
+  Product.create(obj, (err, item) => {
+      if (err) {
+          console.log(err);
+      }
+      else {
+          // item.save();
+          res.redirect('/uploadProduct');
+      }
+  });
+});
+
+productsTest = [
   {
     name: "Air Max 90",
     description: "Par Nuevo Air Max 90 Triple Black",
@@ -43,11 +97,6 @@ products = [
 app.get('/', async function(req,res){
     //var product = await Product.find();
   res.render('index')
-});
-
-app.get('/sell_product',verify, async function(req,res){
-  //var product = await Product.find();
-res.render('sell_Product')
 });
 
 app.get('/login', async function(req,res){
@@ -104,6 +153,7 @@ res.render('checkout')
 
 app.get('/product', async function(req,res){
   //var product = await Product.find();
+  var products= await Product.find();
   console.log(products);
   res.render('product', {products})
 });
