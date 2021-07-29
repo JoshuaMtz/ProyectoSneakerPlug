@@ -43,7 +43,7 @@ app.post('/uploadProduct', verify, upload.single('image'), async (req, res, next
     datePublished: Date.now(),
     selledStatus: false,
     name: req.body.name,
-      desc: req.body.desc,
+      description: req.body.desc,
       img: {
           data: fs.readFileSync(path.join('./uploads/' + req.file.filename)),
           contentType: 'image/png'
@@ -96,7 +96,9 @@ productsTest = [
 //Rutas get
 app.get('/', async function(req,res){
     //var product = await Product.find();
-  res.render('index')
+  var products= await Product.find( {"selledStatus": false} ).limit(3);
+  console.log(products);
+  res.render('index', {products})
 });
 
 app.get('/login', async function(req,res){
@@ -153,7 +155,7 @@ res.render('checkout')
 
 app.get('/product', async function(req,res){
   //var product = await Product.find();
-  var products= await Product.find();
+  var products= await Product.find( {"selledStatus": false} );
   console.log(products);
   res.render('product', {products})
 });
@@ -178,5 +180,18 @@ app.get('/logoff',  async (req,res) =>{
   res.clearCookie("token");
   res.redirect("/");
 })
+
+app.get('/compraExitosa',  async (req,res) =>{
+
+  res.render("compraExitosa");
+})
+
+app.post('/productSelled/:id', verify,async function(req,res){
+  
+  var id = req.params.id;
+  await Product.updateOne({_id: id}, { "dateSelled": Date.now(), "selledStatus": true, "userBought": req.userId} );
+  res.redirect("/compraExitosa");
+});
+
 
 module.exports = app;
