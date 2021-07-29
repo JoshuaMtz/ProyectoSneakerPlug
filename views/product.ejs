@@ -10,21 +10,23 @@
             <div class="row p-2 bg-white border rounded">
                 <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src=<%= products[i].image  %>></div>
                 <div class="col-md-6 mt-1">
-                    <h5><%= products[i].name  %></h5>
+                    <h5 id="name"><%= products[i].name  %></h5>
                     <div class="d-flex flex-row">
                         <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
                     </div>
-                    <div class="mt-1 mb-1 spec-1"><span><%= products[i].description  %></span><span class="dot"></span></div>
-                    <p class="text-justify text-truncate para mb-0">Talla: <%= products[i].size  %> MX (cm)<br><br></p>
+                    <div class="mt-1 mb-1 spec-1"><span id="description"><%= products[i].description  %></span><span class="dot"></span></div>
+                    <p class="text-justify text-truncate para mb-0" id="size">Talla: <%= products[i].size  %> MX (cm)<br><br></p>
                     <br>
                     <p class="text-justify text-truncate para mb-0">Día de Publicación: <%= new Intl.DateTimeFormat('es-MX', { year: 'numeric', month: 'long', day: '2-digit'}).format(products[i].datePublished)  %><br><br></p>
                 </div>
                 <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                     <div class="d-flex flex-row align-items-center">
-                        <h4 class="mr-1">$<%= products[i].price  %></h4>
+                        <h4 class="mr-1" id="price">$<%= products[i].price  %></h4>
                     </div>
                     <h6 class="text-success">Free shipping</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Comprar</button></div>
+                    <div class="d-flex flex-column mt-4">
+                        <a class="btn btn-primary btn-sm" type="button" id="submit" href="checkout/<%= products[i]._id%>">Comprar</a>
+                    </div>
                 </div>
             </div>
 
