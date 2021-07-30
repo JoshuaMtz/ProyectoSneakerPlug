@@ -20,7 +20,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 /////////////
-app.get('/uploadProduct', (req, res) => {
+app.get('/uploadProduct',verify, (req, res) => {
   Product.find({}, (err, items) => {
       if (err) {
           console.log(err);
@@ -55,7 +55,7 @@ app.post('/uploadProduct', verify, upload.single('image'), async (req, res, next
       }
       else {
           // item.save();
-          res.redirect('/uploadProduct');
+          res.redirect('/');
       }
   });
 });

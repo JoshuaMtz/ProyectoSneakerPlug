@@ -25,6 +25,9 @@
     padding-left: 15px;
     color: white;
   }
+  #imagenProducto{
+    color: white
+  }
   .centered-form{
     display: flex;
     justify-content: center;
